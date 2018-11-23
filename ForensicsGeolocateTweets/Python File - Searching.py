@@ -3,6 +3,8 @@ import json
 from tkinter import ttk
 
 from tkinter import scrolledtext
+from tkinter import Combobox
+
 import folium
 import webbrowser
 
@@ -10,7 +12,7 @@ import webbrowser
 win = tk.Tk()
 
 # Add a title
-win.title("Python GUI")
+win.title("Tweet Analyser")
 
 win.minsize(width=850, height=500)
 win.maxsize(width=850, height=500)
@@ -30,7 +32,7 @@ def SearchJSON():
     searchkeyword = name.get()
     print("you have entered ... "+searchkeyword)
     
-    with open('Sample-2-Tweets.json') as data_file:
+    with open('Manchester_Part-1.json') as data_file:
         countt = 0
         for row in data_file:
             data = json.loads(row)
@@ -56,7 +58,7 @@ def ShowPlottedSearchResults():
     webbrowser.open_new_tab('plotted.html')
 
 """
-    with open('Sample-2-Tweets.json') as data_file:
+    with open('Manchester_Part-1.json') as data_file:
         for row in data_file:
             data = json.loads(row)
             StringToScroll = "Date: " + data['createdAt']['$date'] + " latitude:" + str(data['geoLocation']['latitude']) + "Tweet Text:" + data['text']            
@@ -71,20 +73,42 @@ def ShowPlottedSearchResults():
 
 """
 # Changing our Label
-ttk.Label(win, text="Enter a name:").grid(column=0, row=0)
+ttk.Label(win, text="Search String:").grid(column=0, row=0)
 # Adding a Textbox Entry widget
 name = tk.StringVar()
 nameEntered = ttk.Entry(win, width=40, textvariable=name)
 nameEntered.grid(column=0, row=1)
+
 # Adding a Button
 action = ttk.Button(win, text="Search!", command=SearchJSON)
-action.grid(column=1, row=1)
+action.grid(column=0, row=6)
+
+# Adding a ComboBox
+root = tk.Tk()
+cb = ttk.Combobox(root,state='readonly')
+labName = ttk.Label(root,text='Names: ')
+labTel = ttk.Label(root,text='TelNum:')
+labCity = ttk.Label(root,text='City: ')
+entTel = ttk.Entry(root,state='readonly')
+entCity = ttk.Entry(root,state='readonly')
+
+with open('file.csv','r',newline='') as file:
+    reader = csv.reader(file,delimiter='\t')    
+
+
+cb.grid(row=0,column=1)
+labName.grid(row=0,column=0)
+labTel.grid(row=1,column=0)
+entTel.grid(row=1,column=1)
+labCity.grid(row=2,column=0)
+entCity.grid(row=2,column=1)
 
 # Using a scrolled Text control
 scrolW = 100
 scrolH = 20
 scr = scrolledtext.ScrolledText(win, width=scrolW, height=scrolH, wrap=tk.WORD)
 scr.grid(column=0, columnspan=3)
+
 # Adding a Button
 loadingJsonButton = ttk.Button(win, text=" Show Plotted Search Results ",
 command=ShowPlottedSearchResults)
