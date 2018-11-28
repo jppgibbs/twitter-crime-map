@@ -8,9 +8,9 @@ import webbrowser
 
 # Window
 win = tk.Tk()
-win.title("Python GUI")
-win.minsize(width=1075, height=700)
-win.maxsize(width=1075, height=700)
+win.title("Forensic Tweet Analyser")
+win.minsize(width=825, height=600)
+win.maxsize(width=825, height=600)
 win.resizable(0,0)
 
 
@@ -63,36 +63,36 @@ def ShowPlottedSearchResults():
 
 """
 # Search Label
-ttk.Label(win, text="Search String:").grid(column=0, row=0)
+ttk.Label(win, text="Search String:").place(x=50, y=50)
 
 # Adding a Textbox Entry widget
 name = tk.StringVar()
-nameEntered = ttk.Entry(win, width=40, textvariable=name)
-nameEntered.grid(column=0, row=1)
+nameEntered = ttk.Entry(win, width=25, textvariable=name)
+nameEntered.place(x=5, y=70)
 
 # Adding a Button
-action = ttk.Button(win, text="Search!", command=SearchJSON)
-action.grid(column=1, row=1)
+action = ttk.Button(win, width=24, text="Search!", command=SearchJSON)
+action.place(x=5, y=95)
 
 # Using a scrolled Text control
-scrolW = 100
+scrolW = 80
 scrolH = 38
 scr = scrolledtext.ScrolledText(win, width=scrolW, height=scrolH, wrap=tk.WORD)
-scr.grid(column=1, columnspan=3)
+scr.grid(column=2, columnspan=1)
 
 # Adding a Button
 loadingJsonButton = ttk.Button(win, text=" Show Plotted Search Results ",
 command=ShowPlottedSearchResults)
-loadingJsonButton.grid(column=0, columnspan=3)
+loadingJsonButton.grid(column=0, columnspan=2, row=6)
 
 # Search Label
-ttk.Label(win, text="Search Template").grid(column=2, row=0)
+ttk.Label(win, text="Search Template:").place(x=40, y=140)
 
 # Combobox
 combo = Combobox(win)
 combo['values']= (1, 2, 3, 4, 5, "Text")
 combo.current(1) #set the selected item
-combo.grid(column=2, row=1)
+combo.place(x=5, y=160)
 #combo.get()
 
 # Place cursor into name Entry
