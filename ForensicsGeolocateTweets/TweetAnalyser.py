@@ -9,8 +9,8 @@ import webbrowser
 # Window
 win = tk.Tk()
 win.title("Python GUI")
-win.minsize(width=850, height=500)
-win.maxsize(width=850, height=500)
+win.minsize(width=1075, height=700)
+win.maxsize(width=1075, height=700)
 win.resizable(0,0)
 
 
@@ -76,9 +76,9 @@ action.grid(column=1, row=1)
 
 # Using a scrolled Text control
 scrolW = 100
-scrolH = 20
+scrolH = 38
 scr = scrolledtext.ScrolledText(win, width=scrolW, height=scrolH, wrap=tk.WORD)
-scr.grid(column=0, columnspan=3)
+scr.grid(column=1, columnspan=3)
 
 # Adding a Button
 loadingJsonButton = ttk.Button(win, text=" Show Plotted Search Results ",
