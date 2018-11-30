@@ -4,24 +4,26 @@ from tkinter import ttk
 from tkinter import scrolledtext
 from tkinter.ttk import Combobox
 import folium
-from folium import plugins
+from folium import plugins, LayerControl, Map, Marker, FeatureGroup
+from folium.plugins import HeatMap
 import webbrowser
+from IPython.display import HTML
+
+
+
+
 
 # Window
 win = tk.Tk()
 win.title("Forensic Tweet Analyser")
 win.minsize(width=900, height=500)
-win.maxsize(width=900, height=500)
+win.maxsize(width=1900, height=1500)
 win.configure(background="#eaeaea")
-win.resizable(0,0)
 
 
 # Button Click Function
 def SearchJSON():
-    map_osm = folium.Map(location=[53.472328361821766,-2.23959064483645])
-    searchkeyword = name.get()
-    print("result for "+searchkeyword+": ")
-    
+    map_osm = folium.Map(location=[53.472328361821766,-2.23959064483645], tiles='Open Street Map')
     with open('tweets.json') as data_file:
         countt = 0
         for row in data_file:
@@ -37,6 +39,7 @@ def SearchJSON():
                 countt = countt + 1
                 StringToScroll = "\n\n["+str(countt)+"] Date: " + data['createdAt']['$date'] + "Tweet Text:" + data['text']
                 folium.Marker([latt,longg], popup=tempText).add_to(map_osm)
+
                 scr.insert(tk.INSERT,StringToScroll)
 
             else:
