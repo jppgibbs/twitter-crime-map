@@ -4,7 +4,6 @@ from tkinter import ttk
 from tkinter import scrolledtext
 from tkinter.ttk import Combobox
 import folium
-from folium import plugins
 import webbrowser
 
 # Window
@@ -58,7 +57,7 @@ def SearchBeerTemplate():
                 if word in tempText and countt == 0:
                         countt = countt + 1
                         StringToScroll = "\n\n["+str(countt)+"] Date: " + data['createdAt']['$date'] + " Tweet Text:" + data['text']
-                        folium.Marker([latt,longg], popup=tempText).add_to(map_osm)
+                        folium.Marker([latt,longg], popup="").add_to(map_osm)
                         scr.insert(tk.INSERT,StringToScroll) 
         map_osm.save('plotted.html')
 
