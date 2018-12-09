@@ -26,6 +26,12 @@ marker_cluster_enabled = tk.IntVar(value=1)
 
 # Button Click Function
 def SearchJSON(clustered):
+    i = 0
+    searchLimitValue = int
+    if searchLimit.get() == "":
+        searchLimitValue = 0
+    else:
+        searchLimitValue = searchLimit.get()
     scr.delete(1.0, tk.END)
     map_osm = folium.Map(location=[53.472328361821766,-2.23959064483645], tiles='Open Street Map')
     marker_cluster = MarkerCluster().add_to(map_osm)
@@ -33,29 +39,37 @@ def SearchJSON(clustered):
     with open(jsonFileName, encoding="utf-8") as data_file:
         countt = 0
         for row in data_file:
-            data = json.loads(row)
-            tempText = data['text']
-            latt = data['geoLocation']['latitude']
-            longg = data['geoLocation']['longitude']          
-            if name.get() in tempText:
-                    # changing where we add the results to - if clustered results are added we use the cluster plugin and if not we add them directly to the map
-                    if clustered == 1:
-                        countt = countt + 1
-                        StringToScroll = "\n\n["+str(countt)+"]"  + "\nName: " + data['user']['name'] + "\nDate/Time: " + data['createdAt']['$date'] + "\nTweet Text: " "\n" + data['text']
-                        folium.Marker([latt,longg], popup=tempText).add_to(marker_cluster)
-                        scr.insert(tk.INSERT,StringToScroll) 
-                        heat_data.append([latt, longg])
-                    else:
-                        countt = countt + 1
-                        StringToScroll = "\n\n["+str(countt)+"]"  + "\nName: " + data['user']['name'] + "\nDate/Time: " + data['createdAt']['$date'] + "\nTweet Text: " "\n" + data['text']
-                        folium.Marker([latt,longg], popup=tempText).add_to(map_osm)
-                        scr.insert(tk.INSERT,StringToScroll) 
-                        heat_data.append([latt, longg])
+            i += 1
+            if i < searchLimitValue or searchLimitValue == 0:
+                data = json.loads(row)
+                tempText = data['text']
+                latt = data['geoLocation']['latitude']
+                longg = data['geoLocation']['longitude']          
+                if name.get() in tempText:
+                        # changing where we add the results to - if clustered results are added we use the cluster plugin and if not we add them directly to the map
+                        if clustered == 1:
+                            countt = countt + 1
+                            StringToScroll = "\n\n["+str(countt)+"]"  + "\nName: " + data['user']['name'] + "\nDate/Time: " + data['createdAt']['$date'] + "\nTweet Text: " "\n" + data['text']
+                            folium.Marker([latt,longg], popup=tempText).add_to(marker_cluster)
+                            scr.insert(tk.INSERT,StringToScroll) 
+                            heat_data.append([latt, longg])
+                        else:
+                            countt = countt + 1
+                            StringToScroll = "\n\n["+str(countt)+"]"  + "\nName: " + data['user']['name'] + "\nDate/Time: " + data['createdAt']['$date'] + "\nTweet Text: " "\n" + data['text']
+                            folium.Marker([latt,longg], popup=tempText).add_to(map_osm)
+                            scr.insert(tk.INSERT,StringToScroll) 
+                            heat_data.append([latt, longg])
         map_osm.save('plotted.html')
         HeatMap(heat_data).add_to(map_osm)
         map_osm.save('plotted_heat.html')
 
 def SearchJSONDate(clustered):
+    i = 0
+    searchLimitValue = int
+    if searchLimit.get() == "":
+        searchLimitValue = 0
+    else:
+        searchLimitValue = searchLimit.get()
     scr.delete(1.0, tk.END)
     map_osm = folium.Map(location=[53.472328361821766,-2.23959064483645], tiles='Open Street Map')
     marker_cluster = MarkerCluster().add_to(map_osm)
@@ -63,30 +77,38 @@ def SearchJSONDate(clustered):
     with open(jsonFileName, encoding="utf-8") as data_file:
         countt = 0
         for row in data_file:
-            data = json.loads(row)
-            tempText = data['createdAt']['$date']
-            latt = data['geoLocation']['latitude']
-            longg = data['geoLocation']['longitude']          
-            if name.get() in tempText:
-                    # changing where we add the results to - if clustered results are added we use the cluster plugin and if not we add them directly to the map
-                    if clustered == 1:
-                        countt = countt + 1
-                        StringToScroll = "\n\n["+str(countt)+"]"  + "\nName: " + data['user']['name'] + "\nDate/Time: " + data['createdAt']['$date'] + "\nTweet Text: " "\n" + data['text']
-                        folium.Marker([latt,longg], popup=tempText).add_to(marker_cluster)
-                        scr.insert(tk.INSERT,StringToScroll) 
-                        heat_data.append([latt, longg])
-                    else:
-                        countt = countt + 1
-                        StringToScroll = "\n\n["+str(countt)+"]"  + "\nName: " + data['user']['name'] + "\nDate/Time: " + data['createdAt']['$date'] + "\nTweet Text: " "\n" + data['text']
-                        folium.Marker([latt,longg], popup=tempText).add_to(map_osm)
-                        scr.insert(tk.INSERT,StringToScroll) 
-                        heat_data.append([latt, longg])
+            i += 1
+            if i < searchLimitValue or searchLimitValue == 0:
+                data = json.loads(row)
+                tempText = data['createdAt']['$date']
+                latt = data['geoLocation']['latitude']
+                longg = data['geoLocation']['longitude']          
+                if name.get() in tempText:
+                        # changing where we add the results to - if clustered results are added we use the cluster plugin and if not we add them directly to the map
+                        if clustered == 1:
+                            countt = countt + 1
+                            StringToScroll = "\n\n["+str(countt)+"]"  + "\nName: " + data['user']['name'] + "\nDate/Time: " + data['createdAt']['$date'] + "\nTweet Text: " "\n" + data['text']
+                            folium.Marker([latt,longg], popup=tempText).add_to(marker_cluster)
+                            scr.insert(tk.INSERT,StringToScroll) 
+                            heat_data.append([latt, longg])
+                        else:
+                            countt = countt + 1
+                            StringToScroll = "\n\n["+str(countt)+"]"  + "\nName: " + data['user']['name'] + "\nDate/Time: " + data['createdAt']['$date'] + "\nTweet Text: " "\n" + data['text']
+                            folium.Marker([latt,longg], popup=tempText).add_to(map_osm)
+                            scr.insert(tk.INSERT,StringToScroll) 
+                            heat_data.append([latt, longg])
         map_osm.save('plotted.html')
         HeatMap(heat_data).add_to(map_osm)
         map_osm.save('plotted_heat.html')
 
 # Button Click Function
 def SearchJSONRegex(clustered):
+    i = 0
+    searchLimitValue = int
+    if searchLimit.get() == "":
+        searchLimitValue = 0
+    else:
+        searchLimitValue = searchLimit.get()
     scr.delete(1.0, tk.END)
     map_osm = folium.Map(location=[53.472328361821766,-2.23959064483645], tiles='Open Street Map')
     marker_cluster = MarkerCluster().add_to(map_osm)
@@ -95,57 +117,67 @@ def SearchJSONRegex(clustered):
     with open(jsonFileName, encoding="utf-8") as data_file:
         countt = 0
         for row in data_file:
-            data = json.loads(row)
-            tempText = data['text']
-            latt = data['geoLocation']['latitude']
-            longg = data['geoLocation']['longitude']
-            results = regex.findall(data['text'])
-            for result in results:
-                    if clustered == 1:
-                        countt = countt + 1
-                        StringToScroll = "\n\n["+str(countt)+"]"  + "\nName: " + data['user']['name'] + "\nDate/Time: " + data['createdAt']['$date'] + "\nTweet Text: " "\n" + result
-                        folium.Marker([latt,longg], popup=tempText).add_to(marker_cluster)
-                        scr.insert(tk.INSERT,StringToScroll) 
-                        heat_data.append([latt, longg])
-                    else:
-                        countt = countt + 1
-                        StringToScroll = "\n\n["+str(countt)+"]"  + "\nName: " + data['user']['name'] + "\nDate/Time: " + data['createdAt']['$date'] + "\nTweet Text: " "\n" + result
-                        folium.Marker([latt,longg], popup=tempText).add_to(map_osm)
-                        scr.insert(tk.INSERT,StringToScroll) 
-                        heat_data.append([latt, longg])
+            i += 1
+            if i < searchLimitValue or searchLimitValue == 0:
+                data = json.loads(row)
+                tempText = data['text']
+                latt = data['geoLocation']['latitude']
+                longg = data['geoLocation']['longitude']
+                results = regex.findall(data['text'])
+                for result in results:
+                        if clustered == 1:
+                            countt = countt + 1
+                            StringToScroll = "\n\n["+str(countt)+"]"  + "\nName: " + data['user']['name'] + "\nDate/Time: " + data['createdAt']['$date'] + "\nTweet Text: " "\n" + result
+                            folium.Marker([latt,longg], popup=tempText).add_to(marker_cluster)
+                            scr.insert(tk.INSERT,StringToScroll) 
+                            heat_data.append([latt, longg])
+                        else:
+                            countt = countt + 1
+                            StringToScroll = "\n\n["+str(countt)+"]"  + "\nName: " + data['user']['name'] + "\nDate/Time: " + data['createdAt']['$date'] + "\nTweet Text: " "\n" + result
+                            folium.Marker([latt,longg], popup=tempText).add_to(map_osm)
+                            scr.insert(tk.INSERT,StringToScroll) 
+                            heat_data.append([latt, longg])
         map_osm.save('plotted.html')
         HeatMap(heat_data).add_to(map_osm)
         map_osm.save('plotted_heat.html')
 
 def SearchTemplate(template, clustered):
+    i = 0
+    searchLimitValue = int
+    if searchLimit.get() == "":
+        searchLimitValue = 0
+    else:
+        searchLimitValue = searchLimit.get()
     scr.delete(1.0, tk.END)
     map_osm = folium.Map(location=[53.472328361821766,-2.23959064483645])
     marker_cluster = MarkerCluster().add_to(map_osm)
     heat_data = list()
     with open(jsonFileName, encoding="utf-8") as data_file:
         for row in data_file:
-			# Using "countt" variable to store whether or not we've found a trigger word in this tweet yet
-            countt = 0
-            data = json.loads(row) 
-            tempText = data['text']
-            latt = data['geoLocation']['latitude']
-            longg = data['geoLocation']['longitude']
-            for word in template:
-				# "countt" variable is checked, if it's not 0 we don't re-print the string as it's already been pushed to the console once.
-                if word in tempText and countt == 0:
-                    # changing where we add the results to - if clustered results are added we use the cluster plugin and if not we add them directly to the map
-                    if clustered == 1:
-                        countt = countt + 1
-                        StringToScroll = "\n\n"  + "Name: " + data['user']['name'] + "\nDate/Time: " + data['createdAt']['$date'] + "\nTweet Text: " "\n" + data['text']
-                        folium.Marker([latt,longg], popup=tempText).add_to(marker_cluster)
-                        scr.insert(tk.INSERT,StringToScroll) 
-                        heat_data.append([latt, longg])
-                    else:
-                        countt = countt + 1
-                        StringToScroll = "\n\n" + "Name: " + data['user']['name'] + "\nDate/Time: " + data['createdAt']['$date'] + "\nTweet Text: " "\n" + data['text']
-                        folium.Marker([latt,longg], popup=tempText).add_to(map_osm)
-                        scr.insert(tk.INSERT,StringToScroll) 
-                        heat_data.append([latt, longg])
+            i += 1
+            if i < searchLimitValue or searchLimitValue == 0:
+                # Using "countt" variable to store whether or not we've found a trigger word in this tweet yet
+                countt = 0
+                data = json.loads(row) 
+                tempText = data['text']
+                latt = data['geoLocation']['latitude']
+                longg = data['geoLocation']['longitude']
+                for word in template:
+                    # "countt" variable is checked, if it's not 0 we don't re-print the string as it's already been pushed to the console once.
+                    if word in tempText and countt == 0:
+                        # changing where we add the results to - if clustered results are added we use the cluster plugin and if not we add them directly to the map
+                        if clustered == 1:
+                            countt = countt + 1
+                            StringToScroll = "\n\n"  + "Name: " + data['user']['name'] + "\nDate/Time: " + data['createdAt']['$date'] + "\nTweet Text: " "\n" + data['text']
+                            folium.Marker([latt,longg], popup=tempText).add_to(marker_cluster)
+                            scr.insert(tk.INSERT,StringToScroll) 
+                            heat_data.append([latt, longg])
+                        else:
+                            countt = countt + 1
+                            StringToScroll = "\n\n" + "Name: " + data['user']['name'] + "\nDate/Time: " + data['createdAt']['$date'] + "\nTweet Text: " "\n" + data['text']
+                            folium.Marker([latt,longg], popup=tempText).add_to(map_osm)
+                            scr.insert(tk.INSERT,StringToScroll) 
+                            heat_data.append([latt, longg])
         map_osm.save('plotted.html')
         HeatMap(heat_data).add_to(map_osm)
         map_osm.save('plotted_heat.html')
@@ -197,7 +229,7 @@ scr.place(x=200, y=1)
 ttk.Label(win, text="Search Limit:").place(x=10, y=175)
 
 # Textbox Entry Search Limit
-searchLimit = tk.StringVar()
+searchLimit = tk.IntVar()
 searchLimitEntry = ttk.Entry(win, width=15, textvariable=searchLimit,)
 searchLimitEntry.place(x=95, y=173)
 
