@@ -22,7 +22,7 @@ university_template = ["university", "degree", "dissertation", "MMU", "UoM"]
 gym_template = ["gym", "workout", "exercise", "treadmill", "weights"]
 
 # Defining variable for use in radio boxes
-marker_cluster_enabled = tk.IntVar(value=0)
+marker_cluster_enabled = tk.IntVar(value=1)
 
 # Button Click Function
 def SearchJSON(clustered):
@@ -30,7 +30,7 @@ def SearchJSON(clustered):
     map_osm = folium.Map(location=[53.472328361821766,-2.23959064483645], tiles='Open Street Map')
     marker_cluster = MarkerCluster().add_to(map_osm)
     heat_data = list()
-    with open('tweets.json', encoding="utf-8") as data_file:
+    with open(jsonFileName, encoding="utf-8") as data_file:
         countt = 0
         for row in data_file:
             data = json.loads(row)
@@ -60,7 +60,7 @@ def SearchJSONDate(clustered):
     map_osm = folium.Map(location=[53.472328361821766,-2.23959064483645], tiles='Open Street Map')
     marker_cluster = MarkerCluster().add_to(map_osm)
     heat_data = list()
-    with open('tweets.json', encoding="utf-8") as data_file:
+    with open(jsonFileName, encoding="utf-8") as data_file:
         countt = 0
         for row in data_file:
             data = json.loads(row)
@@ -92,7 +92,7 @@ def SearchJSONRegex(clustered):
     marker_cluster = MarkerCluster().add_to(map_osm)
     heat_data = list()
     regex = re.compile(name.get())
-    with open('tweets.json', encoding="utf-8") as data_file:
+    with open(jsonFileName, encoding="utf-8") as data_file:
         countt = 0
         for row in data_file:
             data = json.loads(row)
@@ -122,7 +122,7 @@ def SearchTemplate(template, clustered):
     map_osm = folium.Map(location=[53.472328361821766,-2.23959064483645])
     marker_cluster = MarkerCluster().add_to(map_osm)
     heat_data = list()
-    with open('tweets.json', encoding="utf-8") as data_file:
+    with open(jsonFileName, encoding="utf-8") as data_file:
         for row in data_file:
 			# Using "countt" variable to store whether or not we've found a trigger word in this tweet yet
             countt = 0
@@ -162,15 +162,17 @@ def ClearText():
 # Select File Label
 ttk.Label(win, text="File Name:").place(x=5, y=1)
 
-# User selected file
+# User selected file text box
 jsonFile = tk.StringVar()
+jsonFile.set("tweets.json")
 jsonFileNameEntered = ttk.Entry(win, width=30, textvariable=jsonFile,)
 jsonFileNameEntered.place(x=5, y=20)
+jsonFileName = str(jsonFile.get())
 
 # Search Label
 ttk.Label(win, text="Search String:").place(x=5, y=45)
 
-# Textbox Entry
+# String Search Text Box
 name = tk.StringVar()
 nameEntered = ttk.Entry(win, width=30, textvariable=name,)
 nameEntered.place(x=5, y=65)
@@ -185,7 +187,7 @@ actionRegex.place(x=5, y=115)
 actionDate = ttk.Button(win, width=30, text="Search Date [YYYY-MM-DD]", command=lambda : SearchJSONDate(marker_cluster_enabled.get()))
 actionDate.place(x=5, y=140)
 
-# Using a scrolled Text control
+# Scrolled Text Box
 scrolW = 84
 scrolH = 30
 scr = scrolledtext.ScrolledText(win, width=scrolW, height=scrolH, wrap=tk.WORD, background="#f0f0f0")
@@ -231,8 +233,8 @@ loadingJsonButton.place(x=5, y=375)
 clearButton = ttk.Button(win, width=30, text=" Clear Console ", command=ClearText)
 clearButton.place(x=5, y=400)
 
-# Place cursor into name Entry
+# Set nameEntered as focus
 nameEntered.focus()
 
-# Start GUI
+# Run GUI
 win.mainloop()
